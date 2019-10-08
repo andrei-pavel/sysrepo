@@ -47,7 +47,7 @@ class Data
 {
 public:
     /** Wrapper for [sr_data_t](@ref sr_data_t), for internal use only.*/
-    Data(sr_data_t data, sr_type_t type, S_Deleter deleter);
+    Data(sr_data_t data, sr_type_t type);
     ~Data();
     /** Getter for binary data.*/
     char *get_binary() const;
@@ -85,7 +85,6 @@ public:
 private:
     sr_data_t _d;
     sr_type_t _t;
-    S_Deleter _deleter;
 };
 
 /**
@@ -98,7 +97,7 @@ public:
     /** Constructor for an empty value.*/
     Val();
     /** Wrapper for [sr_val_t](@ref sr_val_t).*/
-    Val(sr_val_t *val, S_Deleter deleter);
+    Val(sr_val_t *val);
    /** Constructor for string value, , type can be any type except SR_UNKNOWN_T,
       *  SR_ANYXML_T, SR_TREE_ITERATOR_T, SR_NOTIFICATION_T, and SR_ANYDATA_T */
      Val(const char *val, sr_type_t type = SR_STRING_T);
@@ -169,12 +168,13 @@ public:
     /** Wrapper for [sr_dup_val](@ref sr_dup_val) */
     S_Val dup();
 
+    friend class Change;
     friend class Session;
     friend class Subscribe;
+    friend class Vals;
 
 private:
     sr_val_t *_val;
-    S_Deleter _deleter;
 };
 
 /**
@@ -185,9 +185,9 @@ class Vals
 {
 public:
     /** Wrapper for [sr_val_t](@ref sr_val_t) array, internal use only.*/
-    Vals(const sr_val_t *vals, const size_t cnt, S_Deleter deleter = nullptr);
+    Vals(const sr_val_t *vals, const size_t cnt);
     /** Wrapper for [sr_val_t](@ref sr_val_t) array, internal use only.*/
-    Vals(sr_val_t **vals, size_t *cnt, S_Deleter deleter = nullptr);
+    Vals(const sr_val_t **vals, const size_t *cnt);
     /** Wrapper for [sr_val_t](@ref sr_val_t) array, create n-array.*/
     Vals(size_t cnt);
     /** Constructor for an empty [sr_val_t](@ref sr_val_t) array.*/
@@ -204,11 +204,11 @@ public:
 
     friend class Session;
     friend class Subscribe;
+    friend class Vals_Holder;
 
 private:
     size_t _cnt;
-    sr_val_t *_vals;
-    S_Deleter _deleter;
+    S_Val _vals;
 };
 
 /**
@@ -219,19 +219,16 @@ class Vals_Holder
 {
 public:
     /** Wrapper for [sr_val_t](@ref sr_val_t) array, used only in callbacks.*/
-    Vals_Holder(sr_val_t **vals, size_t *cnt);
+    Vals_Holder(S_Vals vals);
     /** Create [sr_val_t](@ref sr_val_t) array of n size.*/
     S_Vals allocate(size_t n);
     /** Resize [sr_val_t](@ref sr_val_t) array to n size.*/
     S_Vals reallocate(size_t n);
-    size_t val_cnt(void) { return *p_cnt; }
     S_Vals vals(void);
     ~Vals_Holder();
 
 private:
-    size_t *p_cnt;
-    sr_val_t **p_vals;
-    S_Vals p_Vals;
+    S_Vals _vals;
     bool _allocate;
 };
 
@@ -343,7 +340,7 @@ class Schema_Submodule
 {
 public:
     /** Wrapper for [sr_sch_submodule_t](@ref sr_sch_submodule_t).*/
-    Schema_Submodule(sr_sch_submodule_t sub, S_Deleter deleter);
+    Schema_Submodule(sr_sch_submodule_t sub);
     ~Schema_Submodule();
     /** Getter for submodule_name.*/
     const char *submodule_name() const {return _sub.submodule_name;};
@@ -352,7 +349,6 @@ public:
 
 private:
     sr_sch_submodule_t _sub;
-    S_Deleter _deleter;
 };
 
 /**
@@ -363,7 +359,7 @@ class Yang_Schema
 {
 public:
     /** Wrapper for [sr_schema_t](@ref sr_schema_t).*/
-    Yang_Schema(sr_schema_t *sch, S_Deleter deleter);
+    Yang_Schema(sr_schema_t *sch);
     ~Yang_Schema();
     /** Getter for module_name.*/
     const char *module_name() const {return _sch->module_name;};
@@ -388,7 +384,6 @@ public:
 
 private:
     sr_schema_t *_sch;
-    S_Deleter _deleter;
 };
 
 /**
@@ -409,9 +404,8 @@ public:
     friend class Session;
 
 private:
-    size_t _cnt;
     sr_schema_t *_sch;
-    S_Deleter _deleter;
+    size_t _cnt;
 };
 
 /**
@@ -512,10 +506,8 @@ public:
 
 private:
     sr_change_oper_t _oper;
-    sr_val_t *_new;
-    sr_val_t *_old;
-    S_Deleter _deleter_new;
-    S_Deleter _deleter_old;
+    S_Val _old;
+    S_Val _new;
 };
 
 /**@} */

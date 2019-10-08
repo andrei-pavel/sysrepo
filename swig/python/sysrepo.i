@@ -156,8 +156,9 @@ public:
         SWIG_Python_Thread_Block safety;
 #endif
 
-        sysrepo::Vals *in_vals =(sysrepo::Vals *)new sysrepo::Vals(input, input_cnt, nullptr);
-        sysrepo::Vals_Holder *out_vals =(sysrepo::Vals_Holder *)new sysrepo::Vals_Holder(output, output_cnt);
+        sysrepo::Vals *in_vals =(sysrepo::Vals *)new sysrepo::Vals(input, input_cnt);
+        sysrepo::S_Vals s_out_vals = std::make_shared<sysrepo::Vals>(const_cast<sr_val_t const **>(output), output_cnt);
+        sysrepo::Vals_Holder *out_vals = new sysrepo::Vals_Holder(s_out_vals);
 
         std::shared_ptr<sysrepo::Vals> *shared_in_vals = in_vals ? new std::shared_ptr<sysrepo::Vals>(in_vals) : 0;
         PyObject *in = SWIG_NewPointerObj(SWIG_as_voidptr(shared_in_vals), SWIGTYPE_p_std__shared_ptrT_sysrepo__Vals_t, SWIG_POINTER_DISOWN);
@@ -191,8 +192,9 @@ public:
         SWIG_Python_Thread_Block safety;
 #endif
 
-        sysrepo::Vals *in_vals =(sysrepo::Vals *)new sysrepo::Vals(input, input_cnt, nullptr);
-        sysrepo::Vals_Holder *out_vals =(sysrepo::Vals_Holder *)new sysrepo::Vals_Holder(output, output_cnt);
+        sysrepo::Vals *in_vals =(sysrepo::Vals *)new sysrepo::Vals(input, input_cnt);
+        sysrepo::S_Vals s_out_vals = std::make_shared<sysrepo::Vals>(const_cast<sr_val_t const **>(output), output_cnt);
+        sysrepo::Vals_Holder *out_vals = new sysrepo::Vals_Holder(s_out_vals);
 
         std::shared_ptr<sysrepo::Vals> *shared_in_vals = in_vals ? new std::shared_ptr<sysrepo::Vals>(in_vals) : 0;
         PyObject *in = SWIG_NewPointerObj(SWIG_as_voidptr(shared_in_vals), SWIGTYPE_p_std__shared_ptrT_sysrepo__Vals_t, SWIG_POINTER_DISOWN);
@@ -226,8 +228,9 @@ public:
         SWIG_Python_Thread_Block safety;
 #endif
 
-        sysrepo::Trees *in_vals =(sysrepo::Trees *)new sysrepo::Trees(input, input_cnt, nullptr);
-        sysrepo::Trees_Holder *out_vals =(sysrepo::Trees_Holder *)new sysrepo::Trees_Holder(output, output_cnt);
+        sysrepo::Trees *in_vals =(sysrepo::Trees *)new sysrepo::Trees(input, input_cnt);
+        sysrepo::S_Trees s_out_trees = std::make_shared<sysrepo::Trees>(const_cast<sr_node_t const **>(output), output_cnt);
+        sysrepo::Trees_Holder *out_vals = new sysrepo::Trees_Holder(s_out_trees);
         std::shared_ptr<sysrepo::Trees> *shared_in_vals = in_vals ? new std::shared_ptr<sysrepo::Trees>(in_vals) : 0;
         PyObject *in = SWIG_NewPointerObj(SWIG_as_voidptr(shared_in_vals), SWIGTYPE_p_std__shared_ptrT_sysrepo__Trees_t, SWIG_POINTER_DISOWN);
 
@@ -260,8 +263,9 @@ public:
         SWIG_Python_Thread_Block safety;
 #endif
 
-        sysrepo::Trees *in_vals =(sysrepo::Trees *)new sysrepo::Trees(input, input_cnt, nullptr);
-        sysrepo::Trees_Holder *out_vals =(sysrepo::Trees_Holder *)new sysrepo::Trees_Holder(output, output_cnt);
+        sysrepo::Trees *in_vals =(sysrepo::Trees *)new sysrepo::Trees(input, input_cnt);
+        sysrepo::S_Trees s_out_trees = std::make_shared<sysrepo::Trees>(const_cast<sr_node_t const **>(output), output_cnt);
+        sysrepo::Trees_Holder *out_vals = new sysrepo::Trees_Holder(s_out_trees);
         std::shared_ptr<sysrepo::Trees> *shared_in_vals = in_vals ? new std::shared_ptr<sysrepo::Trees>(in_vals) : 0;
         PyObject *in = SWIG_NewPointerObj(SWIG_as_voidptr(shared_in_vals), SWIGTYPE_p_std__shared_ptrT_sysrepo__Trees_t, SWIG_POINTER_DISOWN);
 
@@ -293,7 +297,8 @@ public:
 #if defined(SWIG_PYTHON_THREADS)
         SWIG_Python_Thread_Block safety;
 #endif
-        sysrepo::Vals_Holder *out_vals =(sysrepo::Vals_Holder *)new sysrepo::Vals_Holder(values, values_cnt);
+        sysrepo::S_Vals s_out_vals = std::make_shared<sysrepo::Vals>(const_cast<sr_val_t const **>(values), values_cnt);
+        sysrepo::Vals_Holder *out_vals = new sysrepo::Vals_Holder(s_out_vals);
         std::shared_ptr<sysrepo::Vals_Holder> *shared_out_vals = out_vals ? new std::shared_ptr<sysrepo::Vals_Holder>(out_vals) : 0;
         PyObject *out = SWIG_NewPointerObj(SWIG_as_voidptr(shared_out_vals), SWIGTYPE_p_std__shared_ptrT_sysrepo__Vals_Holder_t, SWIG_POINTER_DISOWN);
 
@@ -320,7 +325,7 @@ public:
         SWIG_Python_Thread_Block safety;
 #endif
 
-        sysrepo::Vals *in_vals =(sysrepo::Vals *)new sysrepo::Vals(values, values_cnt, nullptr);
+        sysrepo::Vals *in_vals =(sysrepo::Vals *)new sysrepo::Vals(values, values_cnt);
         std::shared_ptr<sysrepo::Vals> *shared_in_vals = in_vals ? new std::shared_ptr<sysrepo::Vals>(in_vals) : 0;
         PyObject *in = SWIG_NewPointerObj(SWIG_as_voidptr(shared_in_vals), SWIGTYPE_p_std__shared_ptrT_sysrepo__Vals_t, SWIG_POINTER_DISOWN);
 
@@ -342,7 +347,7 @@ public:
         SWIG_Python_Thread_Block safety;
 #endif
 
-        sysrepo::Trees *in_vals =(sysrepo::Trees *)new sysrepo::Trees(trees, tree_cnt, nullptr);
+        sysrepo::Trees *in_vals =(sysrepo::Trees *)new sysrepo::Trees(trees, tree_cnt);
         std::shared_ptr<sysrepo::Trees> *shared_in_vals = in_vals ? new std::shared_ptr<sysrepo::Trees>(in_vals) : 0;
         PyObject *in = SWIG_NewPointerObj(SWIG_as_voidptr(shared_in_vals), SWIGTYPE_p_std__shared_ptrT_sysrepo__Trees_t, SWIG_POINTER_DISOWN);
 
